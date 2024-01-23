@@ -8,6 +8,7 @@ import EventDetailPage from "./pages/EventDetail";
 import EditEventPage from "./pages/EditEvent";
 import NewEventPage from "./pages/NewEvent";
 import Notification from "./components/Notification";
+import AuthenticationPage from "./pages/Authentication";
 import { fetchEventsData } from "./store/events-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
           { path: "/events/:id/edit", element: <EditEventPage /> },
         ],
       },
+      { path: "/auth", element: <AuthenticationPage /> },
     ],
   },
 ]);
