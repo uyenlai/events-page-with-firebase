@@ -7,6 +7,9 @@ const eventsSlice = createSlice({
     fetchData(state, action) {
       state.events = [...action.payload];
     },
+    addEvent(state, action) {
+      state.events = [...state.events, { ...action.payload }];
+    },
   },
 });
 
