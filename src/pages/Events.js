@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import EventsList from "../components/EventsList";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import app from "../util/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEventsData } from "../store/events-actions";
 
 export default function Events() {
-  const [events, setEvents] = useState([]);
-  const db = getFirestore(app);
-  const eventsRef = collection(db, "events");
+  const events = useSelector(state => state.events.events)
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDocs(eventsRef);
-      setEvents(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    fetchData();
-  }, [eventsRef]);
+    dispatch(fetchEventsData());
+  }, [dispatch]);
 
   return (
     <>
