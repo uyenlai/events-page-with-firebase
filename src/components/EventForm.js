@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
 import classes from "./EventForm.module.css";
-import { sendEvent } from "../store/events-actions";
-import { useNavigate } from "react-router-dom";
+import { sendEvent, updateEvent } from "../store/events-actions";
+import { useNavigate, useParams } from "react-router-dom";
 
-function EventForm() {
+function EventForm({ method }) {
+  const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,7 +17,14 @@ function EventForm() {
     }
 
     const eventData = Object.fromEntries(array);
-    dispatch(sendEvent(eventData));
+
+    if (method === "POST") {
+      dispatch(sendEvent(eventData));
+    }
+
+    if (method === "PUT") {
+      dispatch(updateEvent(params.id, eventData));
+    }
   }
 
   function handleCancel() {
@@ -24,7 +32,7 @@ function EventForm() {
   }
 
   return (
-    <form className={classes.form} onSubmit={handleSubmit}>
+    <form className={classes.form} onSubmit={handleSubmit} method={method}>
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required />

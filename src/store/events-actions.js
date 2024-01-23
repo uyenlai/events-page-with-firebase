@@ -1,4 +1,11 @@
-import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import app from "../util/firebase";
 import { eventsActions } from "./events-slice";
 
@@ -35,6 +42,27 @@ export const sendEvent = (event) => {
 
     try {
       await sendData();
+      //Notification
+    } catch (error) {
+      //Notification
+    }
+  };
+};
+
+export const updateEvent = (id, event) => {
+  return async (dispatch) => {
+    const updateData = async () => {
+      const eventDoc = doc(db, "events", id);
+      await updateDoc(eventDoc, {
+        date: event.date,
+        description: event.description,
+        image: event.image,
+        title: event.title,
+      });
+    };
+
+    try {
+      await updateData();
       //Notification
     } catch (error) {
       //Notification
