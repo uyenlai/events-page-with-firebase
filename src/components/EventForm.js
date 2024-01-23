@@ -1,9 +1,11 @@
 import { useDispatch } from "react-redux";
 import classes from "./EventForm.module.css";
 import { sendEvent } from "../store/events-actions";
+import { useNavigate } from "react-router-dom";
 
 function EventForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -15,6 +17,10 @@ function EventForm() {
 
     const eventData = Object.fromEntries(array);
     dispatch(sendEvent(eventData));
+  }
+
+  function handleCancel() {
+    navigate("/events");
   }
 
   return (
@@ -36,7 +42,9 @@ function EventForm() {
         <textarea id="description" name="description" rows="5" required />
       </p>
       <div className={classes.actions}>
-        <button type="button">Cancel</button>
+        <button type="button" onClick={handleCancel}>
+          Cancel
+        </button>
         <button>Submit</button>
       </div>
     </form>

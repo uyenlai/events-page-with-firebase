@@ -7,6 +7,9 @@ import EventsRootLayout from "./pages/EventsRoot";
 import EventDetailPage from "./pages/EventDetail";
 import EditEventPage from "./pages/EditEvent";
 import NewEventPage from "./pages/NewEvent";
+import { fetchEventsData } from "./store/events-actions";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchEventsData());
+  }, [dispatch]);
+
   return <RouterProvider router={router} />;
 }
 
