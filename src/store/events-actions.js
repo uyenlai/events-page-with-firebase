@@ -1,11 +1,11 @@
 import {
   getFirestore,
   collection,
-  getDocs,
   addDoc,
   updateDoc,
   deleteDoc,
   doc,
+  onSnapshot,
 } from "firebase/firestore";
 import app from "../util/firebase";
 import { eventsActions } from "./events-slice";
@@ -15,16 +15,22 @@ const db = getFirestore(app);
 const eventsRef = collection(db, "events");
 
 export const fetchEventsData = () => {
-  return async (dispatch) => {
-    const fetchData = async () => {
-      const data = await getDocs(eventsRef);
-      const events = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      return events;
+  return (dispatch) => {
+    const subscribeToRealtimeUpdates = (dispatch) => {
+      const unsubscribe = onSnapshot(eventsRef, (snapshot) => {
+        const events = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        dispatch(eventsActions.fetchData(events));
+      });
+
+      return unsubscribe;
     };
 
     try {
-      const eventsData = await fetchData();
-      dispatch(eventsActions.fetchData(eventsData));
+      const unsubscribe = subscribeToRealtimeUpdates(dispatch);
+      return () => unsubscribe();
     } catch (error) {
       dispatch(
         notificationActions.showNotification({
