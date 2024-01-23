@@ -20,10 +20,12 @@ function EventForm({ method }) {
 
     if (method === "POST") {
       dispatch(sendEvent(eventData));
+      navigate("/events");
     }
 
     if (method === "PUT") {
       dispatch(updateEvent(params.id, eventData));
+      navigate(`/events/${params.id}`);
     }
   }
 

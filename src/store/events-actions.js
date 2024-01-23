@@ -4,6 +4,7 @@ import {
   getDocs,
   addDoc,
   updateDoc,
+  deleteDoc,
   doc,
 } from "firebase/firestore";
 import app from "../util/firebase";
@@ -63,6 +64,22 @@ export const updateEvent = (id, event) => {
 
     try {
       await updateData();
+      //Notification
+    } catch (error) {
+      //Notification
+    }
+  };
+};
+
+export const deleteEvent = (id) => {
+  return async (dispatch) => {
+    const deleteData = async () => {
+      const eventDoc = doc(db, "events", id);
+      await deleteDoc(eventDoc);
+    };
+
+    try {
+      await deleteData();
       //Notification
     } catch (error) {
       //Notification

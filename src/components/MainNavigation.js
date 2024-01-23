@@ -1,7 +1,6 @@
 import { NavLink, Form } from "react-router-dom";
 
 import classes from "./MainNavigation.module.css";
-import NewsletterSignup from "./NewsletterSignup";
 
 function MainNavigation() {
   return (
@@ -31,17 +30,6 @@ function MainNavigation() {
           </li>
           <li>
             <NavLink
-              to="/newsletter"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              Newsletter
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
               to="/authentication?mode=login"
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
@@ -50,15 +38,13 @@ function MainNavigation() {
               Authentication
             </NavLink>
           </li>
-
-          <li>
-            <Form action="/logout" method="post">
-              <button>Logout</button>
-            </Form>
-          </li>
         </ul>
+        <div>
+          <Form action="/logout" method="post">
+            <button>Logout</button>
+          </Form>
+        </div>
       </nav>
-      <NewsletterSignup />
     </header>
   );
 }
