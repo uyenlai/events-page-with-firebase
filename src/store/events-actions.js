@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import app from "../util/firebase";
 import { eventsActions } from "./events-slice";
+import { notificationActions } from "./notification-slice";
 
 const db = getFirestore(app);
 const eventsRef = collection(db, "events");
@@ -25,13 +26,26 @@ export const fetchEventsData = () => {
       const eventsData = await fetchData();
       dispatch(eventsActions.fetchData(eventsData));
     } catch (error) {
-      //handleShowNotification
+      dispatch(
+        notificationActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Fetching events failed!",
+        })
+      );
     }
   };
 };
 
 export const sendEvent = (event) => {
   return async (dispatch) => {
+    dispatch(
+      notificationActions.showNotification({
+        status: "pending...",
+        title: "Sending...",
+        message: "Sending event data!",
+      })
+    );
     const sendData = async () => {
       await addDoc(eventsRef, {
         date: event.date,
@@ -43,15 +57,35 @@ export const sendEvent = (event) => {
 
     try {
       await sendData();
-      //Notification
+      dispatch(
+        notificationActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Sent event data successfully!",
+        })
+      );
     } catch (error) {
-      //Notification
+      dispatch(
+        notificationActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Sending events failed!",
+        })
+      );
     }
   };
 };
 
 export const updateEvent = (id, event) => {
   return async (dispatch) => {
+    dispatch(
+      notificationActions.showNotification({
+        status: "pending...",
+        title: "Updating...",
+        message: "Updating event data!",
+      })
+    );
+
     const updateData = async () => {
       const eventDoc = doc(db, "events", id);
       await updateDoc(eventDoc, {
@@ -64,15 +98,34 @@ export const updateEvent = (id, event) => {
 
     try {
       await updateData();
-      //Notification
+      dispatch(
+        notificationActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Updated event data successfully!",
+        })
+      );
     } catch (error) {
-      //Notification
+      dispatch(
+        notificationActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Updating events failed!",
+        })
+      );
     }
   };
 };
 
 export const deleteEvent = (id) => {
   return async (dispatch) => {
+    dispatch(
+      notificationActions.showNotification({
+        status: "pending...",
+        title: "Deleting...",
+        message: "Deleting event data!",
+      })
+    );
     const deleteData = async () => {
       const eventDoc = doc(db, "events", id);
       await deleteDoc(eventDoc);
@@ -80,9 +133,21 @@ export const deleteEvent = (id) => {
 
     try {
       await deleteData();
-      //Notification
+      dispatch(
+        notificationActions.showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Deleted event data successfully!",
+        })
+      );
     } catch (error) {
-      //Notification
+      dispatch(
+        notificationActions.showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Delete events failed!",
+        })
+      );
     }
   };
 };

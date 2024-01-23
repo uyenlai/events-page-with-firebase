@@ -3,6 +3,10 @@
   max-width: 40rem;
 }
 
+.events p {
+  text-align: center;
+}
+
 .list {
   display: flex;
   flex-direction: column;

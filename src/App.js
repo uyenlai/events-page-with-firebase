@@ -7,9 +7,11 @@ import EventsRootLayout from "./pages/EventsRoot";
 import EventDetailPage from "./pages/EventDetail";
 import EditEventPage from "./pages/EditEvent";
 import NewEventPage from "./pages/NewEvent";
+import Notification from "./components/Notification";
 import { fetchEventsData } from "./store/events-actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { notificationActions } from "./store/notification-slice";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +36,28 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
+  const notification = useSelector((state) => state.notification.notification);
 
   useEffect(() => {
     dispatch(fetchEventsData());
   }, [dispatch]);
 
-  return <RouterProvider router={router} />;
+  setTimeout(() => {
+    dispatch(notificationActions.hideNotification());
+  }, 1500);
+
+  return (
+    <>
+      {notification && (
+        <Notification
+          status={notification.status}
+          title={notification.title}
+          message={notification.message}
+        />
+      )}
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
