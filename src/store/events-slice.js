@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const eventsSlice = createSlice({
   name: "events",
-  initialState: { events: [] },
+  initialState: { events: [], users: [] },
   reducers: {
-    fetchData(state, action) {
+    fetchEvents(state, action) {
       state.events = [...action.payload];
     },
-    addEvent(state, action) {
-      state.events = [...state.events, { ...action.payload }];
+    fetchUsers(state, action) {
+      state.users = [...action.payload];
     },
   },
 });

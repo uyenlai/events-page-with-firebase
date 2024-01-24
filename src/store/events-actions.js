@@ -22,7 +22,7 @@ export const fetchEventsData = () => {
           ...doc.data(),
           id: doc.id,
         }));
-        dispatch(eventsActions.fetchData(events));
+        dispatch(eventsActions.fetchEvents(events));
       });
 
       return unsubscribe;

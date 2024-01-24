@@ -10,6 +10,7 @@ import NewEventPage from "./pages/NewEvent";
 import Notification from "./components/Notification";
 import AuthenticationPage from "./pages/Authentication";
 import { fetchEventsData } from "./store/events-actions";
+import { fetchUsersData } from "./store/auth-actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { notificationActions } from "./store/notification-slice";
@@ -44,9 +45,13 @@ function App() {
     dispatch(fetchEventsData());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchUsersData());
+  }, [dispatch]);
+
   setTimeout(() => {
     dispatch(notificationActions.hideNotification());
-  }, 1500);
+  }, 3000);
 
   return (
     <>
